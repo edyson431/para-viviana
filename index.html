@@ -1,0 +1,334 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>💖 Para Viviana</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Georgia', serif;
+    background: #0a0a0a;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  /* ===== PANTALLA DE ACCESO ===== */
+  #acceso {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    padding: 50px 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 60px rgba(233, 30, 99, 0.4);
+    border: 1px solid rgba(255, 107, 157, 0.3);
+    max-width: 420px;
+    width: 90%;
+    z-index: 10;
+  }
+  #acceso h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #ff6b9d;
+    letter-spacing: 2px;
+  }
+  #acceso p {
+    font-size: 14px;
+    margin-bottom: 25px;
+    color: #aaa;
+  }
+  input {
+    width: 100%;
+    padding: 14px;
+    border: 2px solid #ff6b9d;
+    background: transparent;
+    border-radius: 10px;
+    font-size: 16px;
+    text-align: center;
+    color: #fff;
+    outline: none;
+    margin-bottom: 20px;
+    letter-spacing: 3px;
+  }
+  input::placeholder { color: #666; letter-spacing: 1px; }
+  button {
+    background: linear-gradient(135deg, #ff6b9d, #c44569);
+    color: white;
+    border: none;
+    padding: 14px 40px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    letter-spacing: 2px;
+    font-family: inherit;
+  }
+  button:hover { transform: scale(1.05); box-shadow: 0 0 30px #ff6b9d; }
+  #error {
+    color: #ff5555;
+    font-size: 14px;
+    margin-top: 15px;
+    display: none;
+  }
+
+  /* ===== EXPERIENCIA ===== */
+  #experiencia {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+  }
+
+  .linea {
+    font-size: 60px;
+    font-weight: bold;
+    color: #ff6b9d;
+    letter-spacing: 15px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1.5s ease, transform 1.5s ease;
+    text-shadow: 0 0 30px rgba(255, 107, 157, 0.8);
+    margin: 15px 0;
+  }
+  .linea.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .final {
+    font-size: 22px;
+    color: #fff;
+    letter-spacing: 5px;
+    font-style: italic;
+    margin-top: 40px;
+  }
+
+  /* ===== FOTOS ===== */
+  .foto {
+    position: absolute;
+    width: 180px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 15px;
+    border: 3px solid #ff6b9d;
+    box-shadow: 0 0 30px rgba(255, 107, 157, 0.6);
+    opacity: 0;
+    transition: opacity 2s ease, transform 2s ease;
+    transform: scale(0.8);
+  }
+  .foto.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .foto:nth-child(1) { top: 10%; left: 5%; animation: flotar 4s ease-in-out infinite; }
+  .foto:nth-child(2) { top: 15%; right: 5%; animation: flotar 5s ease-in-out infinite; }
+  .foto:nth-child(3) { bottom: 10%; left: 8%; animation: flotar 4.5s ease-in-out infinite; }
+  .foto:nth-child(4) { bottom: 12%; right: 8%; animation: flotar 5.5s ease-in-out infinite; }
+
+  @keyframes flotar {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-15px) scale(1.03); }
+  }
+
+  /* Botón repetir */
+  #repetir {
+    position: fixed;
+    bottom: 30px;
+    background: rgba(255, 107, 157, 0.2);
+    border: 1px solid #ff6b9d;
+    color: #ff6b9d;
+    padding: 10px 25px;
+    border-radius: 25px;
+    font-size: 14px;
+    cursor: pointer;
+    display: none;
+    letter-spacing: 2px;
+    font-family: inherit;
+    transition: 0.3s;
+    z-index: 20;
+  }
+  #repetir:hover { background: #ff6b9d; color: #fff; }
+
+  /* Corazones flotantes */
+  .corazon-flotante {
+    position: fixed;
+    font-size: 28px;
+    animation: flotarC 6s linear infinite;
+    pointer-events: none;
+    z-index: 5;
+  }
+  @keyframes flotarC {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+    20% { opacity: 1; }
+    100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* Nombre inicial */
+  #nombreInicial {
+    font-size: 40px;
+    color: #ff6b9d;
+    letter-spacing: 8px;
+    opacity: 0;
+    transition: opacity 2s ease;
+    margin-bottom: 60px;
+    font-weight: bold;
+    z-index: 10;
+  }
+  #nombreInicial.visible { opacity: 1; }
+
+  /* Responsive para celular */
+  @media (max-width: 600px) {
+    .linea { font-size: 38px; letter-spacing: 8px; }
+    .final { font-size: 16px; }
+    .foto { width: 100px; height: 130px; }
+    #nombreInicial { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== ACCESO ===== -->
+<div id="acceso">
+  <h1>💌 Solo para ti, Viviana</h1>
+  <p>Ingresa la palabra secreta</p>
+  <input type="password" id="clave" placeholder="• • • • • • • •">
+  <br>
+  <button onclick="verificar()">Entrar</button>
+  <p id="error">❌ Esta web es solo para Viviana 💖</p>
+</div>
+
+<!-- ===== EXPERIENCIA ===== -->
+<div id="experiencia">
+  <img class="foto" id="f1" src="fotos/foto1.jpg" alt="">
+  <img class="foto" id="f2" src="fotos/foto2.jpg" alt="">
+  <img class="foto" id="f3" src="fotos/foto3.jpg" alt="">
+  <img class="foto" id="f4" src="fotos/foto4.jpg" alt="">
+
+  <div id="nombreInicial">VIVIANA</div>
+  <div class="linea" id="l1">TE</div>
+  <div class="linea" id="l2">AMO</div>
+  <div class="linea" id="l3">VIVIANA</div>
+  <div class="linea final" id="l4">Con todo mi corazón 💖</div>
+</div>
+
+<button id="repetir" onclick="reiniciar()">🔁 Ver de nuevo</button>
+
+<!-- 🎵 TU CANCIÓN -->
+<audio id="musica" loop>
+  <source src="cancion.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  // ==========================================
+  // 🔐 CONTRASEÑA
+  // ==========================================
+  const CONTRASENA = "vivi2023";
+
+  // ==========================================
+  // ⏱️ TIEMPOS (en milisegundos)
+  // ⚠️ AJUSTA según tu canción
+  // ==========================================
+  const TIEMPOS = {
+    nombre: 1000,    // 1s  → VIVIANA
+    foto1: 2500,     // 2.5s → foto 1
+    foto2: 4000,     // 4s  → foto 2
+    l1: 6000,        // 6s  → TE
+    foto3: 7500,     // 7.5s → foto 3
+    l2: 9000,        // 9s  → AMO
+    foto4: 10500,    // 10.5s → foto 4
+    l3: 12000,       // 12s → VIVIANA
+    l4: 16000,       // 16s → frase final + corazones
+    repetir: 20000   // 20s → botón repetir
+  };
+
+  // ==========================================
+  // 🔐 VERIFICAR
+  // ==========================================
+  function verificar() {
+    const input = document.getElementById('clave').value.toLowerCase().trim();
+    if (input === CONTRASENA) {
+      document.getElementById('acceso').style.display = 'none';
+      document.getElementById('experiencia').style.display = 'flex';
+      iniciarExperiencia();
+    } else {
+      document.getElementById('error').style.display = 'block';
+    }
+  }
+
+  document.getElementById('clave').addEventListener('keypress', e => {
+    if (e.key === 'Enter') verificar();
+  });
+
+  // ==========================================
+  // 🎬 EXPERIENCIA
+  // ==========================================
+  let timeouts = [];
+
+  function iniciarExperiencia() {
+    const musica = document.getElementById('musica');
+    musica.currentTime = 0;
+    musica.play().catch(err => console.log('Autoplay bloqueado'));
+
+    timeouts.push(setTimeout(() => document.getElementById('nombreInicial').classList.add('visible'), TIEMPOS.nombre));
+    timeouts.push(setTimeout(() => document.getElementById('f1').classList.add('visible'), TIEMPOS.foto1));
+    timeouts.push(setTimeout(() => document.getElementById('f2').classList.add('visible'), TIEMPOS.foto2));
+    timeouts.push(setTimeout(() => {
+      document.getElementById('nombreInicial').style.display = 'none';
+      document.getElementById('l1').classList.add('visible');
+    }, TIEMPOS.l1));
+    timeouts.push(setTimeout(() => document.getElementById('f3').classList.add('visible'), TIEMPOS.foto3));
+    timeouts.push(setTimeout(() => document.getElementById('l2').classList.add('visible'), TIEMPOS.l2));
+    timeouts.push(setTimeout(() => document.getElementById('f4').classList.add('visible'), TIEMPOS.foto4));
+    timeouts.push(setTimeout(() => document.getElementById('l3').classList.add('visible'), TIEMPOS.l3));
+    timeouts.push(setTimeout(() => {
+      document.getElementById('l4').classList.add('visible');
+      lanzarCorazones();
+    }, TIEMPOS.l4));
+    timeouts.push(setTimeout(() => document.getElementById('repetir').style.display = 'block', TIEMPOS.repetir));
+  }
+
+  // ==========================================
+  // 🔁 REPETIR
+  // ==========================================
+  function reiniciar() {
+    timeouts.forEach(t => clearTimeout(t));
+    timeouts = [];
+
+    document.getElementById('nombreInicial').style.display = 'block';
+    document.getElementById('nombreInicial').classList.remove('visible');
+    ['l1','l2','l3','l4','f1','f2','f3','f4'].forEach(id => {
+      document.getElementById(id).classList.remove('visible');
+    });
+    document.getElementById('repetir').style.display = 'none';
+
+    const musica = document.getElementById('musica');
+    musica.currentTime = 0;
+
+    setTimeout(iniciarExperiencia, 500);
+  }
+
+  // ==========================================
+  // 💖 CORAZONES
+  // ==========================================
+  function lanzarCorazones() {
+    const emojis = ['❤️','💖','💘','💕','💗','💓','💞','💝','🌹','🌷','💐'];
+    setInterval(() => {
+      const c = document.createElement('div');
+      c.className = 'corazon-flotante';
+      c.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.animationDuration = (5 + Math.random() * 3) + 's';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 8000);
+    }, 400);
+  }
+</script>
+</body>
+</html>
